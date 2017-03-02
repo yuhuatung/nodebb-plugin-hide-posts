@@ -21,12 +21,9 @@
 					return callback(null, data);
 				}
 				pids[0] = pids[0].toString();
-				// console.log(pids);
 
 				user.getPostIds(data.uid, 0, -1, function (err, postIds) {
 
-					// console.log(postIds);
-					// console.log(intersect(pids, postIds).length);
 					if(data.uid == data.postData.uid) {
 						data.postData.content = plugin.parseUnLockedContent(data.postData.content);
 					} else if( intersect(pids, postIds).length > 0 ) {
@@ -35,7 +32,6 @@
 						data.postData.content = plugin.parseLockedContent(data.postData.content);
 					}
 					
-					console.log(data);
 					callback(null, data);
 				});
 			});
