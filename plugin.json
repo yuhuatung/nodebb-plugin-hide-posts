@@ -1,0 +1,14 @@
+{
+	"id": "nodebb-plugin-fsc-hide-posts",
+	"name": "NodeBB hide posts",
+	"description": "NodeBB Plugin that allows users to hide their posts unless replied to show the content.",
+	"url": "",
+	"library": "./index.js",
+	"hooks": [
+		{ "hook": "static:app.load", "method": "init" },
+		{ "hook": "filter:parse.post", "method": "parse", "priority": 1 }
+	],
+	"css": [
+		"./static/css/hidePosts.css"
+	]
+}
