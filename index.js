@@ -11,7 +11,6 @@
 		},
 
 		parse: function (data, callback) {
-			console.log('hide post')
 			if (!data || !data.postData || !data.postData.content) {
 				return callback(null, data);
 			}
@@ -20,20 +19,22 @@
 				if (err) {
 					return callback(null, data);
 				}
-				pids[0] = pids[0].toString();
-
-				user.getPostIds(data.uid, 0, -1, function (err, postIds) {
-
-					if(data.uid == data.postData.uid) {
-						data.postData.content = plugin.parseUnLockedContent(data.postData.content);
-					} else if( intersect(pids, postIds).length > 0 ) {
-						data.postData.content = plugin.parseUnLockedContent(data.postData.content);
-					} else {
-						data.postData.content = plugin.parseLockedContent(data.postData.content);
-					}
+				if (pids.length > 0 ) {
+					pids[0] = pids[0].toString();
 					
+					user.getPostIds(data.uid, 0, -1, function (err, postIds) {
+						if(data.uid == data.postData.uid) {
+							data.postData.content = plugin.parseUnLockedContent(data.postData.content);
+						} else if( intersect(pids, postIds).length > 0 ) {
+							data.postData.content = plugin.parseUnLockedContent(data.postData.content);
+						} else {
+							data.postData.content = plugin.parseLockedContent(data.postData.content);
+						}
+						callback(null, data);
+					});
+				} else {
 					callback(null, data);
-				});
+				}
 			});
 			function intersect(a, b) {
 			    var t;
