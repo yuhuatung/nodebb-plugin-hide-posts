@@ -63,7 +63,6 @@
 			return content;
 
 			function replaceAt(headIndex, tailIndex, content, character) {
-				console.log(content.substr(tailIndex, content.length));
     			return content.substr(0, headIndex) + character + content.substr(tailIndex + tailStr.length, content.length);
     		}
 		},
