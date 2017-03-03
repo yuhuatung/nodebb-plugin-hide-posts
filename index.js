@@ -53,8 +53,12 @@
 
 				var head = content.indexOf('[hide]');
 				var tail = content.indexOf('[/hide]');
-				if (tail <= 0) 
+
+				if (tail <= 0){
 					break;
+				} else if(tail < head){
+					break;
+				}
 				content = replaceAt(head, tail, content, lockedInfo);
 
 			}
