@@ -15,6 +15,9 @@
 				return callback(null, data);
 			}
 
+			if (data.uid == 0){
+				data.postData.content = plugin.parseLockedDownloadContent(data.postData.content);
+			}
 			topics.getPids(data.postData.tid, function (err, pids) {
 				if (err) {
 					return callback(null, data);
@@ -97,6 +100,21 @@
 				tempTail = tail;
 			}
 			return content;
+		},
+
+		parseLockedDownloadContent: function (content) {
+			var tailStr = '</a>';
+			var lockedInfo = '<div class="lockedInfo"><span>本帖下載内容已隐藏，请登入以查看隐藏内容！</span></div>'
+			while (content.indexOf('<a href') >= 0) {
+				var head = content.indexOf('<a href');
+				var tail = content.lastIndexOf('</a>');
+				content = replaceAt(head, tail, content, lockedInfo);
+			}
+			return content;
+
+			function replaceAt(headIndex, tailIndex, content, character) {
+				return content.substr(0, headIndex) + character + content.substr(tailIndex + tailStr.length, content.length);
+			}
 		}
 	};
 	module.exports = plugin;
